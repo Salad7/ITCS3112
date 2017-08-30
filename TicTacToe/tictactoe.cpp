@@ -5,6 +5,25 @@ using namespace std;
 void draw (char* ttt);
 void playTicTacToe(char *ttt);
 bool gameComplete (char *ttt);
+bool checkIfThrees (char *ttt,int a,int  b, int c);
+bool checkIfWinner (char *ttt);
+
+
+/*
+How games can end with a winner
+0,1,2
+3,4,5
+6,7,8
+
+2,4,6
+0,4,8
+
+0,3,6
+1,4,7
+2,5,8
+
+
+*/
 
 int main() {
 
@@ -24,7 +43,12 @@ int main() {
 }
 
 void playTicTacToe (char *ttt) {
-    //cout 
+    cout << "Player 1's turn, where would you like to place X (1-9)? " << endl;
+    //Check if value is between 1-9
+    //Check if there isn't already a spot there, if there is u lose your turn
+    //Check if user has won
+    
+    
 			// this function contains  the game logic
 			// assume a move by player A, followed by player B
 			// after each move, you must check if the respective player
@@ -36,7 +60,58 @@ void playTicTacToe (char *ttt) {
 			// in row-major order 
 
 			// use cin and cout for input and output
+			ttt[3] = 'X';
+			ttt[4] = 'X';
+			ttt[5] = 'X';
+			draw(ttt);
+			if(checkIfWinner(ttt)){
+			    cout << "winner";
+			}
 
+}
+
+bool checkIfWinner(char* ttt){
+// 0,1,2
+if(checkIfThrees(ttt,0,1,2)){
+    return true;
+}
+// 3,4,5 
+if(checkIfThrees(ttt,3,4,5)){
+    return true;
+}
+// 6,7,8
+if(checkIfThrees(ttt,6,7,8)){
+    return true;
+}
+// 2,4,6
+if(checkIfThrees(ttt,2,4,6)){
+    return true;
+}
+// 0,4,8
+if(checkIfThrees(ttt,0,4,8)){
+    return true;
+}
+// 0,3,6
+if(checkIfThrees(ttt,0,3,6)){
+    return true;
+}
+// 1,4,7
+if(checkIfThrees(ttt,1,4,7)){
+    return true;
+}
+// 2,5,8
+if(checkIfThrees(ttt,2,5,8)){
+    return true;
+}
+return false;
+}
+
+bool checkIfThrees(char* ttt, int a, int b, int c){
+    if(ttt[a] == ttt[b] && ttt[b] == ttt[c]){
+        cout << "true";
+        return true;
+    }
+    return false;
 }
 
 // This function draws the tic-tac-toe square after each move
@@ -47,6 +122,9 @@ void draw(char *ttt) {
 	        cout << endl;
 	    }
 	}
+cout << endl;
+cout << endl;
+cout << endl;
 }
 
 
