@@ -43,7 +43,33 @@ int main() {
 }
 
 void playTicTacToe (char *ttt) {
-    cout << "Player 1's turn, where would you like to place X (1-9)? " << endl;
+    for(int i = 0; i < 9; i++){
+         int num;
+        if(i % 2 == 0){
+        cout << "Player 1's turn, where would you like to place X (0-8)? " << endl;
+        cin >> num;
+        }
+        else{
+        cout << "Player 2's turn, where would you like to place 0 (0-8)? " << endl;
+        cin >> num;
+        }
+        if(num > -1 && num < 9){
+            if(i % 2 == 0){
+                ttt[num] = 'X';
+            }
+            else{
+                 ttt[num] = '0';
+
+            }
+			if(checkIfWinner(ttt)){
+			    cout << "winner found" << endl;
+			}
+			        draw(ttt);
+        }
+        else{
+            cout << " You lost your turn for entering number out range! ";
+        }
+    }
     //Check if value is between 1-9
     //Check if there isn't already a spot there, if there is u lose your turn
     //Check if user has won
@@ -60,13 +86,10 @@ void playTicTacToe (char *ttt) {
 			// in row-major order 
 
 			// use cin and cout for input and output
-			ttt[3] = 'X';
-			ttt[4] = 'X';
-			ttt[5] = 'X';
-			draw(ttt);
-			if(checkIfWinner(ttt)){
-			    cout << "winner";
-			}
+// 			ttt[3] = 'X';
+// 			ttt[4] = 'X';
+// 			ttt[5] = 'X';
+			
 
 }
 
@@ -107,7 +130,8 @@ return false;
 }
 
 bool checkIfThrees(char* ttt, int a, int b, int c){
-    if(ttt[a] == ttt[b] && ttt[b] == ttt[c]){
+    if(ttt[a] == ttt[b] && ttt[b] == ttt[c] && ttt[a] != '-' && ttt[b] != '-' && ttt[c] != '-'){
+        
         cout << "true";
         return true;
     }
@@ -122,8 +146,6 @@ void draw(char *ttt) {
 	        cout << endl;
 	    }
 	}
-cout << endl;
-cout << endl;
 cout << endl;
 }
 
