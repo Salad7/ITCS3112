@@ -187,45 +187,49 @@ void greed2(int index, int** hold, int height) {
 	int* midRow;
 	int* downRow;
 	while (inner < height) {
-		//for (int j = 0; j < height; j++) {
-			//Gives us the pointer to the row beginning
-			//int* currentRow = hold[j];
-
-			//for (int k = 0; k < width; k++) {
 		cout << endl << " starting at index =  " << index << " inner = " << inner;
 		upRow = &hold[index - 1][inner + 1];
 		midRow = &hold[index][inner + 1];
 		downRow = &hold[index + 1][inner + 1];
-		cout << endl << "comparing  mid" << index << "," << inner + 1 << " to down" << index - 1 << "," << inner + 1;
+		///cout << endl << "comparing  mid" << index << "," << inner + 1 << " to down" << index - 1 << "," << inner + 1;
 		//If down can cause crash
 		if (index + 1 >= height)
 		{
 			//compare mid and up
 			if (*midRow <= *upRow) {
+				
+				cout << endl << "comparing  mid" << index << "," << inner + 1 << " to up" << index - 1 << "," << inner + 1;
+				cout << endl << *midRow << " is larger than " << *upRow;
+				cout << endl << " going mid ";
 				hold[index][inner + 1] = 0;
 				inner++;
-				cout << endl << " going mid ";
 			}
 			else {
+				
+				
+				cout << endl << " going up ";
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
-				cout << endl << " going up ";
 			}
 		}
 		//If up can cause crash
 		else if (index - 1 < 0) {
 			//compare mid and down
 			if (*midRow <= *downRow) {
+				
+				
+				cout << endl << " going mid ";
 				hold[index][inner + 1] = 0;
 				inner++;
-				cout << endl << " going mid ";
 			}
 			else {
+				
+				
+				cout << endl << " going down ";
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
-				cout << endl << " going down ";
 			}
 
 		}
@@ -233,52 +237,64 @@ void greed2(int index, int** hold, int height) {
 
 		else if (*upRow <= *midRow) {
 			if (*upRow <= *downRow) {
+				
+				
+				cout << endl << " going up ";
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
-				cout << endl << " going up ";
 			}
 
 			else {
+				
+				
+				cout << endl << " going down "; 
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
-				cout << endl << " going down ";
 			}
 		}
 
 		else if (*midRow <= *downRow) {
 			if (*midRow <= *upRow) {
+				
+				
+				cout << endl << " going mid ";
 				hold[index][inner + 1] = 0;
 				inner++;
-				cout << endl << " going mid ";
 			}
 			else {
+				
+				
+				cout << endl << " going up ";
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
-				cout << endl << " going up ";
 			}
 		}
 
 		else if (*downRow <= *upRow) {
 			if (*downRow <= *midRow) {
+				
+				
+				cout << endl << " going down ";
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
-				cout << endl << " going down ";
 			}
 			else {
+				
+				
+				cout << endl << " going mid ";
 				hold[index][inner + 1] = 0;
 				inner++;
-				cout << endl << " going mid ";
 			}
 		}
 		
 	}
 		//}
 	//}
-	delete[] upRow, midRow, downRow;
+	//delete[] upRow, midRow, downRow;
 
 
 }
@@ -290,9 +306,18 @@ void writeToFile(int h, int w, int** hold) {
 
 	for (int outer = 0; outer < width; outer++) {
 		for (int inner = 0; inner < height; inner++) {
-			output << hold[outer][inner] << " ";
+			if (inner == height-1) {
+				output << hold[outer][inner] << "\n";
+			}
+			else {
+				output << hold[outer][inner] << " ";
+			}
+			
+			//else {
+		//		output << hold[outer][inner] << " ";
+
+			//}
 		}
-		output << "\n" << " ";
 	}
 	/*for (int i = 0; i<((h*w)); i++) {
 		if (i%h == 0 && i != 0) {
