@@ -1,165 +1,3 @@
-//#include <iostream>
-//#include <fstream>
-//#include <cstdlib>
-//#include <sstream>
-//#include <string>
-//
-//
-//int maxFound = 0;
-//int height = 0;
-//int width = 0;
-//int maximum = 0;
-//int z = 0;
-//int size = 0;
-//int i = 0;
-//int row = 0;
-//std::string filename = "";
-//
-//using namespace std;
-//
-//void greed(int index, int arr[], int height) {
-//
-//	for (int z = 0; z< height; z++) {
-//		int up = index - height - 1;
-//		int middle = index + 1;
-//		int down = index + height + 1;
-//
-//
-//		if (up < 0) {
-//			if (arr[middle] <= arr[down]) {
-//				arr[index] = 0;
-//				index += 1;
-//				cout << endl << " going mid , up is less than 0";
-//			}
-//			else {
-//
-//				arr[index] = 0;
-//				index += (height + 1);
-//				cout << endl << " going down ";
-//			}
-//		}
-//
-//		else if (down >= width*height) {
-//			if (arr[middle] <= arr[up]) {
-//				arr[index] = 0;
-//				index += 1;
-//				cout << endl << " going mid, down is greater than width* height ";
-//			}
-//			else {
-//				arr[index] = 0;
-//				index -= (height - 1);
-//				cout << endl << " going up, down is greater than width*height";
-//			}
-//		}
-//
-//		else if (arr[up] <= arr[middle]) {
-//			if (arr[up] <= arr[down]) {
-//				arr[index] = 0;
-//				index -= (height - 1);
-//				cout << endl << " going up ";
-//			}
-//
-//			else {
-//				arr[index] = 0;
-//				index += (height + 1);
-//				cout << endl << " going down ";
-//			}
-//		}
-//
-//
-//		else if (arr[middle] <= arr[down]) {
-//			if (arr[middle] <= arr[up]) {
-//				arr[index] = 0;
-//				index += 1;
-//				cout << endl << " going mid ";
-//			}
-//			else {
-//				arr[index] = 0;
-//				index -= (height - 1);
-//				cout << endl << " going up ";
-//			}
-//		}
-//
-//		else if (arr[down] <= arr[up]) {
-//			if (arr[down] <= arr[middle]) {
-//				arr[index] = 0;
-//				index += (height + 1);
-//				cout << endl << " going down ";
-//			}
-//			else {
-//				arr[index] = 0;
-//				index += 1;
-//				cout << endl << " going mid ";
-//			}
-//		}
-//	}
-//
-//
-//}
-//void writeToFile(int h, int w, int arr[]) {
-//	std::filebuf res;
-//	res.open("out.ppm", std::ios::out);
-//	std::ostream output(&res);
-//	output << "P2\n" << h << " " << w << "\n" << maximum << "\n";
-//	for (int i = 0; i<((h*w)); i++) {
-//		if (i%h == 0 && i != 0) {
-//			output << "\n" << arr[i] << " ";
-//		}
-//		else {
-//			output << arr[i] << " ";
-//
-//		}
-//
-//	}
-//	res.close();
-//}
-//
-//
-//int main()
-//{
-//	stringstream k;
-//	string line;
-//	int value = 0;
-//	std::string::size_type sz;
-//
-//
-//	cout << "Which index do u want to start from" << endl;
-//	cin >> row;
-//	cout << "Enter the name of the file";
-//	cin >> filename;
-//	filename += ".dat";
-//	//std::string totalpath = "H:\\Documents\\Visual Studio 2015\\Projects\\Assignment2-3116\\";
-//	std::fstream myFile(("H:\\Documents\\Visual Studio 2015\\Projects\\Assignment2-3116\\" + filename).c_str(), std::ios_base::in);
-//
-//
-//
-//	myFile >> height;
-//	myFile >> width;
-//	int* arr;
-//	//int arr[n1*10];
-//	arr = new int[height*width];
-//	while (myFile >> z) {
-//		arr[i] = z;
-//		//cout << arr[i];
-//		if (arr[i] > maximum)
-//		{
-//			maximum = arr[i];
-//			
-//		}
-//		i++;
-//	}
-//	myFile.close();
-//	//convert row to specifici spot
-//	row = ((row*width) - (width - 1)) - 1;
-//	//cout << endl << "new row is " << row;
-//	greed(row, arr, height);
-//	writeToFile(height, width, arr);
-//	system("PAUSE");
-//	return 0;
-//
-//}
-
-
 
 #include <iostream>
 #include <fstream>
@@ -183,31 +21,36 @@ using namespace std;
 
 void greed2(int index, int** hold, int height) {
 	int inner = 0;
-	int* upRow;
-	int* midRow;
-	int* downRow;
+	int* upRow = NULL;
+	int* midRow = NULL;
+	int* downRow = NULL;
 	while (inner < height) {
-		cout << endl << " starting at index =  " << index << " inner = " << inner;
+		/*cout << endl << "starting at index =  " << index << " inner = " << inner;*/
 		upRow = &hold[index - 1][inner + 1];
 		midRow = &hold[index][inner + 1];
 		downRow = &hold[index + 1][inner + 1];
+		hold[index][inner] = 0;
+		if (inner + 1 == height) {
+			/*cout << endl << "done. ";*/
+			inner++;
+		}
 		///cout << endl << "comparing  mid" << index << "," << inner + 1 << " to down" << index - 1 << "," << inner + 1;
 		//If down can cause crash
-		if (index + 1 >= height)
+		else if (index + 1 >= height)
 		{
 			//compare mid and up
 			if (*midRow <= *upRow) {
 				
-				cout << endl << "comparing  mid" << index << "," << inner + 1 << " to up" << index - 1 << "," << inner + 1;
-				cout << endl << *midRow << " is larger than " << *upRow;
-				cout << endl << " going mid ";
+				/*cout << endl << "comparing  mid" << index << "," << inner + 1 << " to up" << index - 1 << "," << inner + 1;
+				cout << endl << *midRow << "is larger than " << *upRow;
+				cout << endl << "going mid ";*/
 				hold[index][inner + 1] = 0;
 				inner++;
 			}
 			else {
 				
 				
-				cout << endl << " going up ";
+				//cout << endl << "going up ";
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
@@ -219,14 +62,14 @@ void greed2(int index, int** hold, int height) {
 			if (*midRow <= *downRow) {
 				
 				
-				cout << endl << " going mid ";
+			/*	cout << endl << "going mid ";*/
 				hold[index][inner + 1] = 0;
 				inner++;
 			}
 			else {
 				
 				
-				cout << endl << " going down ";
+			/*	cout << endl << "going down ";*/
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
@@ -239,7 +82,7 @@ void greed2(int index, int** hold, int height) {
 			if (*upRow <= *downRow) {
 				
 				
-				cout << endl << " going up ";
+				/*cout << endl << "going up ";*/
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
@@ -248,7 +91,7 @@ void greed2(int index, int** hold, int height) {
 			else {
 				
 				
-				cout << endl << " going down "; 
+				/*cout << endl << "going down "; */
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
@@ -259,14 +102,14 @@ void greed2(int index, int** hold, int height) {
 			if (*midRow <= *upRow) {
 				
 				
-				cout << endl << " going mid ";
+				/*cout << endl << "going mid ";*/
 				hold[index][inner + 1] = 0;
 				inner++;
 			}
 			else {
 				
 				
-				cout << endl << " going up ";
+				/*cout << endl << "going up ";*/
 				hold[index - 1][inner + 1] = 0;
 				index--;
 				inner++;
@@ -277,7 +120,7 @@ void greed2(int index, int** hold, int height) {
 			if (*downRow <= *midRow) {
 				
 				
-				cout << endl << " going down ";
+				/*cout << endl << "going down ";*/
 				hold[index + 1][inner + 1] = 0;
 				index++;
 				inner++;
@@ -285,16 +128,22 @@ void greed2(int index, int** hold, int height) {
 			else {
 				
 				
-				cout << endl << " going mid ";
+				/*cout << endl << "going mid ";*/
 				hold[index][inner + 1] = 0;
 				inner++;
 			}
 		}
 		
 	}
+	upRow = NULL;
+	midRow = NULL;
+	downRow = NULL;
+	delete upRow;
+	delete midRow;
+	delete downRow;
 		//}
 	//}
-	//delete[] upRow, midRow, downRow;
+	
 
 
 }
@@ -406,8 +255,6 @@ int main()
 	for (int z = 0; z < numOfRowsToPathFind; z++) {
 		//cout << endl << " the row pointer for row " << z << " is " << holder[z] << " it's corresponding value is " << *holder[z] << " the value after this is " << holder[z][1];
 		row = rows[z];
-		//row = ((row*width) - (width - 1)) - 1;
-		cout << endl << " the height is " << height;
 		greed2(row, holder, height);
 
 	}
