@@ -183,6 +183,9 @@ using namespace std;
 
 void greed2(int index, int** hold, int height) {
 	int inner = 0;
+	int* upRow;
+	int* midRow;
+	int* downRow;
 	while (inner < height) {
 		//for (int j = 0; j < height; j++) {
 			//Gives us the pointer to the row beginning
@@ -190,19 +193,45 @@ void greed2(int index, int** hold, int height) {
 
 			//for (int k = 0; k < width; k++) {
 		cout << endl << " starting at index =  " << index << " inner = " << inner;
-		int* upRow = &hold[index - 1][inner + 1];
-		int* midRow = &hold[index][inner + 1];
-		int* downRow = &hold[index + 1][inner + 1];
+		upRow = &hold[index - 1][inner + 1];
+		midRow = &hold[index][inner + 1];
+		downRow = &hold[index + 1][inner + 1];
+		cout << endl << "comparing  mid" << index << "," << inner + 1 << " to down" << index - 1 << "," << inner + 1;
+		//If down can cause crash
+		if (index + 1 >= height)
+		{
+			//compare mid and up
+			if (*midRow <= *upRow) {
+				hold[index][inner + 1] = 0;
+				inner++;
+				cout << endl << " going mid ";
+			}
+			else {
+				hold[index - 1][inner + 1] = 0;
+				index--;
+				inner++;
+				cout << endl << " going up ";
+			}
+		}
+		//If up can cause crash
+		else if (index - 1 < 0) {
+			//compare mid and down
+			if (*midRow <= *downRow) {
+				hold[index][inner + 1] = 0;
+				inner++;
+				cout << endl << " going mid ";
+			}
+			else {
+				hold[index + 1][inner + 1] = 0;
+				index++;
+				inner++;
+				cout << endl << " going down ";
+			}
 
-
-		if (*upRow < *midRow) {
-			hold[index - 1][inner + 1] = 0;
-			index--;
-			inner++;
 		}
 
 
-		if (*upRow <= *midRow) {
+		else if (*upRow <= *midRow) {
 			if (*upRow <= *downRow) {
 				hold[index - 1][inner + 1] = 0;
 				index--;
@@ -217,7 +246,6 @@ void greed2(int index, int** hold, int height) {
 				cout << endl << " going down ";
 			}
 		}
-
 
 		else if (*midRow <= *downRow) {
 			if (*midRow <= *upRow) {
@@ -246,11 +274,11 @@ void greed2(int index, int** hold, int height) {
 				cout << endl << " going mid ";
 			}
 		}
-		delete[] upRow, midRow, downRow;
+		
 	}
 		//}
 	//}
-
+	delete[] upRow, midRow, downRow;
 
 
 }
@@ -261,7 +289,7 @@ void writeToFile(int h, int w, int** hold) {
 	output << "P2\n" << h << " " << w << "\n" << maximum << "\n";
 
 	for (int outer = 0; outer < width; outer++) {
-		for (int inner = 0; inner < height; i++) {
+		for (int inner = 0; inner < height; inner++) {
 			output << hold[outer][inner] << " ";
 		}
 		output << "\n" << " ";
@@ -342,15 +370,24 @@ int main()
 	}
 	myFile.close();
 
-	for (int z = 0; z < height; z++) {
+	//for (int outer = 0; outer < width; outer++) {
+	//	for (int inner = 0; inner < height; inner++) {
+	//		//output << hold[outer][inner] << " ";
+	//		cout << endl << holder[outer][inner];
+	//	}
+		//output << "\n" << " ";
+	//}
+
+	for (int z = 0; z < numOfRowsToPathFind; z++) {
 		//cout << endl << " the row pointer for row " << z << " is " << holder[z] << " it's corresponding value is " << *holder[z] << " the value after this is " << holder[z][1];
 		row = rows[z];
 		//row = ((row*width) - (width - 1)) - 1;
+		cout << endl << " the height is " << height;
 		greed2(row, holder, height);
 
 	}
 	writeToFile(height, width, holder);
-	delete[] holder, rowBeginning;
+	delete[] arr,holder, rowBeginning;
 
 
 	
